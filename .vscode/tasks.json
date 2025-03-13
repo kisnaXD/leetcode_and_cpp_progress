@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: clang++ build active file",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-std=c++17",
+                "-I/usr/local/include",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Run with input/output redirection",
+            "type": "shell",
+            "command": "${fileDirname}/${fileBasenameNoExtension} < ${workspaceFolder}/solutions/input.txt > ${workspaceFolder}/solutions/output.txt",
+            "group": "test",
+            "dependsOn": "C/C++: clang++ build active file"
+        }
+    ]
+}
