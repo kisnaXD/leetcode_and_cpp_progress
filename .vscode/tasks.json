@@ -3,30 +3,28 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: clang++ build active file",
-            "command": "/usr/bin/clang++",
+            "label": "C++ Build and Run",
+            "command": "g++",
             "args": [
-                "-std=c++17",
-                "-I/usr/local/include",
-                "${file}",
+                "-g",
+                "${fileDirname}/solution.cpp",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/solution",
+                "&&",
+                "${fileDirname}/solution",
+                "<",
+                "${fileDirname}/input.txt",
+                ">",
+                "${fileDirname}/output.txt"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${fileDirname}"
             },
-            "problemMatcher": ["$gcc"],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
-        },
-        {
-            "label": "Run with input/output redirection",
-            "type": "shell",
-            "command": "${fileDirname}/${fileBasenameNoExtension} < ${workspaceFolder}/solutions/input.txt > ${workspaceFolder}/solutions/output.txt",
-            "group": "test",
-            "dependsOn": "C/C++: clang++ build active file"
+            },
+            "detail": "Task to compile and run C++ with input/output redirection"
         }
     ]
 }
