@@ -1,28 +1,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Second Largest Element
+// Removing Duplicates from a Sorted Array
 
-int secondLargest(vector <int> &arr, int n) {
-    int L = arr[0];
-    int sL = -1;
-    for(int i=0; i<n; i++) {
-        if(arr[i] < L && arr[i] > sL) {
-            sL = arr[i];
-        } else if(arr[i] > L) {
-            sL = L;
-            L = arr[i];
+int rmDuplicates(vector <int> &arr, int N) {
+    int i = 0;
+    for(int j=1; j<N; j++) {
+        if(arr[j] != arr[i]) {
+            arr[i+1] = arr[j];
+            i+=1;
         }
     }
-    return sL;
+    return i+1;
 }
 
 int main() {
     vector<int> v;
-    v.push_back(3);
+    v.push_back(1);
     v.push_back(1);
     v.push_back(2);
+    v.push_back(3);
     v.push_back(4);
-    v.push_back(1);
-    cout << secondLargest(v, 5);
+    cout << "Array before removing duplicates" << endl;
+    for(auto it: v) {
+        cout << it << endl;
+    }
+    cout << "Number of duplicates : " << rmDuplicates(v, 5) << endl;
+    cout << "Array after removing duplicates" << endl;
+    for(auto it: v) {
+        cout << it << endl;
+    }
 }

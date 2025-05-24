@@ -1,1 +1,13 @@
+Array before removing duplicates
+1
+1
+2
 3
+4
+Number of duplicates : 4
+Array after removing duplicates
+1
+2
+3
+4
+4
