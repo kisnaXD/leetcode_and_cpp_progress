@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Moore's Voting Algorithm
+// Missing Element both Optimal Solutions
 
 int missingElementOptimal1(vector <int> &arr, int N) {
     int sum = N * (N+1) / 2;
