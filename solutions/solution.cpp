@@ -1,31 +1,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Two Sum Problem (with and without usage of Map)
+// Sort an array containing only 0's 1's and 2's
 
-pair<int ,int> twoSumProblemWithMap(vector<int> &arr, int N, int K) {
-    map<int, int> mpp;
-    for(int i=0; i<N; i++) {
-        int a = arr[i];
-        int r = K - a;
-        if(mpp.find(r) != mpp.end()) {
-            return make_pair(mpp[r], i);
-        }
-        mpp[a] = i;
-    }
-}
-
-pair<int, int> twoSumProblem(vector <int> &arr, int N, int K) {
-    // Here we assume that the array is sorted
-    int i=0, j=N-1;
-    while(j>i) {
-        int sum = arr[i] + arr[j];
-        if(sum == K) {
-            return make_pair(i, j);
-        } else if(sum > K) {
-            j--;
+void sortArray012(vector <int> &arr, int N) {
+    int low=0, mid=0, high=N-1;
+    while(low<=mid && mid<=high) {
+        if(arr[mid] == 0) {
+            int temp = arr[mid];
+            arr[mid] = arr[low];
+            arr[low] = temp;
+            mid++;
+            low++;
+        } else if (arr[mid] == 1) {
+            mid++;
         } else {
-            i++;
+            int temp = arr[mid];
+            arr[mid] = arr[high];
+            arr[high] = temp;
+            high--;
         }
     }
 }
@@ -33,12 +26,12 @@ pair<int, int> twoSumProblem(vector <int> &arr, int N, int K) {
 int main() {
     vector<int> v;
     v.push_back(1);
+    v.push_back(0);
+    v.push_back(2);
     v.push_back(1);
-    v.push_back(2);
-    v.push_back(2);
-    v.push_back(6);
-    pair<int, int> withMap = twoSumProblemWithMap(v, 5, 8);
-    pair<int, int> withoutMap = twoSumProblem(v,5,8);
-    cout << withMap.first << endl << withMap.second << endl;
-    cout << withoutMap.first << endl << withoutMap.second << endl;
+    v.push_back(0);
+    sortArray012(v, 5);
+    for(auto it : v) {
+        cout << it << endl;
+    }
 }
