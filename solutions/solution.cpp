@@ -1,18 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Leaders in an Array
+// Longest Consecutive Sequence in an Array (Google Question)
 
-vector<int> leadersInAnArray(vector<int> &arr, int N) {
-    vector<int> v;
-    int maxi = INT_MIN;
-    for(int i = N-1; i>=0; i--) {
-        if(arr[i] > maxi) {
-            v.push_back(arr[i]);
-            maxi = arr[i];
+int longestConsecutiveSequence(vector<int> &arr, int N) {
+    int longest = 1;
+    unordered_set<int> st;
+    for(int i=0; i<N; i++) {
+        st.insert(arr[i]);
+    }
+    for(auto it: st) {
+        if(st.find(it-1) == st.end()) {
+            int cnt = 1;
+            int x = it;
+            while(st.find(x+1) != st.end()) {
+                cnt+=1;
+                x+=1;
+            }
+            longest = longest<cnt ? cnt : longest;
         }
     }
-    return v;
+    return longest;
 }
 
 int main() {
@@ -24,8 +32,6 @@ int main() {
     v.push_back(3);
     v.push_back(0);
     v.push_back(0);
-    vector<int> ans = leadersInAnArray(v, 7);
-    for(int i = 0; i<ans.size(); i++) {
-        cout << ans[i] << endl;
-    }
+    int longestConsi = longestConsecutiveSequence(v, 7);
+    cout << longestConsi;
 }
