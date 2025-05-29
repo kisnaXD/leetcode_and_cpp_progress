@@ -1,37 +1,40 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Longest Consecutive Sequence in an Array (Google Question)
-
-int longestConsecutiveSequence(vector<int> &arr, int N) {
-    int longest = 1;
-    unordered_set<int> st;
-    for(int i=0; i<N; i++) {
-        st.insert(arr[i]);
-    }
-    for(auto it: st) {
-        if(st.find(it-1) == st.end()) {
-            int cnt = 1;
-            int x = it;
-            while(st.find(x+1) != st.end()) {
-                cnt+=1;
-                x+=1;
+// Set Matrix Zeroes
+void setZeroes(vector<vector<int>>& matrix) {
+    int col0 = 1;
+    int n = matrix.size();
+    int m = matrix[0].size();
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<m; j++) {
+            if(matrix[i][j] == 0) {
+                if(j!=0) {
+                    matrix[0][j] = 0;
+                } else {
+                    col0 = 0;
+                }
+                matrix[i][0] = 0;
             }
-            longest = longest<cnt ? cnt : longest;
         }
     }
-    return longest;
-}
-
-int main() {
-    vector<int> v;
-    v.push_back(2);
-    v.push_back(1);
-    v.push_back(5);
-    v.push_back(4);
-    v.push_back(3);
-    v.push_back(0);
-    v.push_back(0);
-    int longestConsi = longestConsecutiveSequence(v, 7);
-    cout << longestConsi;
+    for(int i=1; i<n; i++) {
+        for(int j=1; j<m; j++) {
+            if(matrix[i][j] != 0) {
+                if(matrix[0][j] == 0 || matrix[i][0] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+    if(matrix[0][0] == 0) {
+        for(int i=0; i<m; i++) {
+            matrix[0][i] = 0;
+        }
+    }
+    if(col0 == 0) {
+        for(int i=0; i<n; i++) {
+            matrix[i][0] = 0;
+        }
+    }
 }
