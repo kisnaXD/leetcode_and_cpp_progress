@@ -1,51 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Reverse Pairs
+// Maximum Product Subarray
 
-int cnt = 0;
-void merge(vector <int> &arr, int low, int mid, int high) {
-    vector<int> temp;
-    int i = low;
-    int j = mid+1;
-    while(i<=mid && j<=high) {
-        if(arr[i] > 2*arr[j]) {
-            cnt += mid - i + 1;
-            j++;
-        } else {
-            i++;
-        }
+int maximumProductSubArray(vector<int> &arr, int N) {
+    int pre=1, suff=1, maxS = INT_MIN;
+    for(int i=0; i<N; i++) {
+        pre = pre * arr[i];
+        suff = suff * arr[N-i-1];
+        if(pre==0) pre=1;
+        if(suff==0) suff=1;
+        maxS = maxS > pre ? maxS : pre;
+        maxS = maxS > suff ? maxS : suff;
     }
-    i = low;
-    j = mid+1;
-    while(i<=mid && j<=high) {
-        if(arr[i] <= arr[j]) {
-            temp.push_back(arr[i]);
-            i+=1;
-        } else {
-            temp.push_back(arr[j]);
-            j+=1;
-        }
-    }
-    while(i<=mid) {
-        temp.push_back(arr[i]);
-        i+=1;
-    }
-    while(j<=high) {
-        temp.push_back(arr[j]);
-        j+=1;
-    }
-    for(int c = low; c<=high; c++) {
-        arr[c] = temp[c-low];
-    }
-}
-
-void mS(vector<int> &arr, int low, int high) {
-    if(low == high) return;
-    int mid = (low+high)/2;
-    mS(arr, low, mid);
-    mS(arr, mid+1, high);
-    merge(arr, low, mid, high);
+    return maxS;
 }
 
 int main() {
@@ -55,6 +23,6 @@ int main() {
     v.push_back(2);
     v.push_back(4);
     v.push_back(1);
-    mS(v, 0, 4);
-    cout << cnt;
+    int maxS = maximumProductSubArray(v,5);
+    cout << maxS;
 }
