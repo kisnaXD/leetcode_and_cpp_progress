@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Maximum Product Subarray
+// Binary Search
 
 int binarySearchIterative(vector<int> &arr, int N, int a) {
     int low = 0;
