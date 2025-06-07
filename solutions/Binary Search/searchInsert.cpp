@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Floor & Ceiling
+// Search Insert position
 
-int floorOfSortedArray(vector<int> &arr, int N, int a) {
+int searchInsert(vector<int> &arr, int N, int a) {
     int low = 0;
     int ans = -1;
     int high = N-1;
@@ -26,6 +26,6 @@ int main() {
     v.push_back(1);
     v.push_back(2);
     v.push_back(4);
-    int find3 = floorOfSortedArray(v, 4, 3);
+    int find3 = searchInsert(v, 4, 3);
     cout << find3;
 }
