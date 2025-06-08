@@ -1,20 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// How many times has array been rotated
+// Minimum in Rotated Sorted Array
 
-int arrayRotatedCount(vector<int> &arr, int N) {
+int minimumInRotatedSorted(vector<int> &arr, int N) {
     int low = 0;
     int high = N-1;
-    int ans = 0;
+    int ans = INT_MAX;
     while(low<=high) {
         int mid = (low+high)/2;
-        ans = arr[ans] < arr[mid] ? ans : mid;
+        ans = ans < arr[mid] ? ans : arr[mid];
         if(arr[mid] <= arr[high]) {
-            ans = arr[ans] < arr[mid] ? ans : mid;
+            ans = ans < arr[mid] ? ans : arr[mid];
             high = mid - 1;
         } else {
-            ans = arr[ans] < arr[low] ? ans : low;
+            ans = ans < arr[low] ? ans : arr[low];
             low = mid + 1;
         }
     }
@@ -27,6 +27,6 @@ int main() {
     v.push_back(3);
     v.push_back(4);
     v.push_back(1);
-    int minimum = arrayRotatedCount(v, 4);
+    int minimum = minimumInRotatedSorted(v, 4);
     cout << minimum;
 }
