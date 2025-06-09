@@ -11,7 +11,6 @@ int powerCalc(int a, int b) {
     return a;
 }
 
-
 int nRootBS(int N, int M) {
     int low = 1;
     int high = M;
