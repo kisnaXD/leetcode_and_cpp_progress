@@ -1,39 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Smallest Divisor with a given threshhold
+// Least capacity to ship within D Days
 
-bool divisorSum(vector<int> &arr, int N, int d, int t) {
-    int c = 0;
+int daysCalculator(vector<int> &arr, int N, int c) {
+    int cap=0;
+    int days=1;
     for(int i=0; i<N; i++) {
-        if(arr[i]%d == 0) {
-            c+=arr[i]/d;
+        if(cap+arr[i] > c) {
+            days+=1;
+            cap = arr[i];
         } else {
-            c+=arr[i]/d+1;
+            cap+=arr[i];
         }
     }
-    if(c<=t) return true;
-    else return false;
+    return days;
 }
 
-int smallestDivisor(vector<int> &arr, int N, int t) {
-    int max = 0;
-    for(int i=1; i<N; i++) {
-        if(arr[i] > arr[max]) {
-            max = i;
+int leastCapacity(vector<int> &arr, int N, int t) {
+    int min=0, max=0, ans=-1;
+    for(int i=0; i<N; i++) {
+        if(min < arr[i]) {
+            min = arr[i];
         }
+        max+=arr[i];
     }
-    int low = 1;
-    int ans = -1;
-    max = arr[max];
-    while(low<=max) {
-        int mid = (low+max)/2;
-        if(divisorSum(arr, N, mid, t)) {
+    while(min <= max) {
+        int mid = (min+max)/2;
+        int days = daysCalculator(arr, N, mid);
+        if(days <= t) {
             ans = mid;
-            max = mid -1;
-        } else {
-            low = mid + 1;
-        }
+            max = mid - 1;
+        } else min = mid + 1;
     }
     return ans;
 }
@@ -41,8 +39,14 @@ int main() {
     vector<int> v;
     v.push_back(1);
     v.push_back(2);
+    v.push_back(3);
+    v.push_back(4);
     v.push_back(5);
+    v.push_back(6);
+    v.push_back(7);
+    v.push_back(8);
     v.push_back(9);
-    int smallestDivisorAns = smallestDivisor(v, 4, 6);
-    cout << smallestDivisorAns;
+    v.push_back(10);
+    int lCap = leastCapacity(v, 10, 5);
+    cout << lCap;
 }
