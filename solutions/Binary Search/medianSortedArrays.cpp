@@ -3,15 +3,15 @@ using namespace std;
 
 // Find the median of two sorted arrays without merging them
 
-double kthEleSortedArrays(vector<int>& nums1, vector<int>& nums2, int K) {
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
     int m = nums1.size();
     int n = nums2.size();
     int N = m+n;
-    int left = K;
+    int left = (m+n+1)/2;
     if(m>n) {
-        return kthEleSortedArrays(nums2, nums1, K);
+        return findMedianSortedArrays(nums2, nums1);
     }
-    int low = max(0, K-n), high = min(K, m);
+    int low = 0, high = m;
     while(low<=high) {
         int mid = (low+high)/2;
         int oMid = left - mid;
@@ -22,7 +22,11 @@ double kthEleSortedArrays(vector<int>& nums1, vector<int>& nums2, int K) {
         if(mid-1>=0) l1 = nums1[mid-1];
         if(oMid-1>=0) l2 = nums2[oMid-1];
         if(l1<=r2 && l2<=r1) {
-            return max(l1,l2);
+            if(N%2 != 0) {
+                return max(l1,l2);
+            } else {
+                return (double) (max(l1,l2) + min(r1,r2)) / 2;
+            }
         } else if (l1>r2) {
             high = mid - 1;
         } else {
@@ -47,6 +51,6 @@ int main() {
     v2.push_back(9);
     v2.push_back(11);
 
-    double kthEle = kthEleSortedArrays(v1, v2, 4);
-    cout << kthEle;
+    double median2Arrays = findMedianSortedArrays(v1, v2);
+    cout << median2Arrays;
 }
