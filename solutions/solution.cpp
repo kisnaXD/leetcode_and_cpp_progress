@@ -1,26 +1,42 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Element search in fully sorted 2D Array
+// Finding peak Element in 2D Matrix
 
-pair<int, int> eleSearchRowColumnWise(vector< vector<int> >&arr, int M, int N, int K) {
-    int i = 0;
-    pair<int, int> ele;
-    ele.first = -1;
-    ele.second = -1;
-    int j = N-1;
-    while(i<M && j>=0) {
-        if(arr[i][j] == K) {
-            ele.first = i;
-            ele.second = j;
-            return ele;
-        } else if (arr[i][j] > K) {
-            j--;
-        } else {
-            i++;
+int findMaxIndex(vector< vector<int> >&arr, int M, int N, int col) {
+    int maxValue = -1;
+    int index = -1;
+    for(int i=0; i<M; i++) {
+        if(arr[i][col] > maxValue) {
+            maxValue = arr[i][col];
+            index = i;
         }
     }
-    return ele;
+    return index;
+}
+
+vector<int> peakIndex(vector< vector< int > > &arr, int M, int N) {
+    int low = 0, high = N-1;
+    while(low<=high) {
+        int mid = (low+high)/2;
+        int maxIndex = findMaxIndex(arr, M, N, mid);
+        int left = mid - 1 >=0 ? arr[maxIndex][mid - 1] : -1;
+        int right = mid + 1 < N ? arr[maxIndex][mid+1] : -1;
+        if(arr[maxIndex][mid] > left && arr[maxIndex][mid] > right) {
+            vector<int> v;
+            v.push_back(maxIndex);
+            v.push_back(mid);
+            return v;
+        } else if (arr[maxIndex][mid] < left) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    vector<int> v;
+    v.push_back(-1);
+    v.push_back(-1);
+    return v;
 }
 
 int main() {
@@ -66,6 +82,8 @@ int main() {
     v6.push_back(v4);
     v6.push_back(v5);
 
-    pair<int, int> answer = eleSearchRowColumnWise(v6, 5, 5, 23);
-    cout << answer.first << " " << answer.second;
+    vector<int> answer = peakIndex(v6, 5, 5);
+    for(auto it: answer) {
+        cout << it << " ";
+    }
 }
