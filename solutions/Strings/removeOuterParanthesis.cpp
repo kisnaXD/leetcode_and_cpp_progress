@@ -5,7 +5,7 @@ using namespace std;
 
 string removeOuterParanthesis(string str, int N) {
     string r;
-    int b;
+    int b = 0;
     for(int i=0; i<N; i++) {
         if(str[i] == '(') {
             if(b > 0) {
