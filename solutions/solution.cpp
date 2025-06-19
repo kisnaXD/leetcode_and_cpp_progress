@@ -1,42 +1,61 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Finding peak Element in 2D Matrix
+// Median in a row wise sorted 2d matrix
 
-int findMaxIndex(vector< vector<int> >&arr, int M, int N, int col) {
-    int maxValue = -1;
-    int index = -1;
+int findLowest(vector< vector<int> > &arr, int M, int N) {
+    int low = INT_MAX;
     for(int i=0; i<M; i++) {
-        if(arr[i][col] > maxValue) {
-            maxValue = arr[i][col];
-            index = i;
+        if(arr[i][0] < low) {
+            low = arr[i][0];
         }
     }
-    return index;
+    return low;
 }
 
-vector<int> peakIndex(vector< vector< int > > &arr, int M, int N) {
-    int low = 0, high = N-1;
-    while(low<=high) {
-        int mid = (low+high)/2;
-        int maxIndex = findMaxIndex(arr, M, N, mid);
-        int left = mid - 1 >=0 ? arr[maxIndex][mid - 1] : -1;
-        int right = mid + 1 < N ? arr[maxIndex][mid+1] : -1;
-        if(arr[maxIndex][mid] > left && arr[maxIndex][mid] > right) {
-            vector<int> v;
-            v.push_back(maxIndex);
-            v.push_back(mid);
-            return v;
-        } else if (arr[maxIndex][mid] < left) {
-            high = mid - 1;
-        } else {
-            low = mid + 1;
+int findHighest(vector< vector<int> > &arr, int M, int N) {
+    int high = INT_MAX;
+    for(int i=0; i<M; i++) {
+        if(arr[i][N-1] > high) {
+            high = arr[i][0];
         }
     }
-    vector<int> v;
-    v.push_back(-1);
-    v.push_back(-1);
-    return v;
+    return high;
+}
+
+int blackBox(vector< vector<int> >&arr, int M, int N, int K) {
+    int ans = 0;
+    for(int i=0; i<M; i++) {
+        int low = 0;
+        int high = N-1;
+        int ub = 0;
+        while(low<=high) {
+            int mid = (low+high)/2;
+            if(arr[i][mid] <= K) {
+                ub = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        ans+=ub;
+    }
+    return ans;
+}
+
+int median2DRowwise(vector< vector<int> >&arr, int M, int N) {
+    int low = findLowest(arr, M, N);
+    int high = findHighest(arr, M, N);
+    while(low<=high) {
+        int mid = (low+high)/2;
+        int smallerEquals = blackBox(arr, M, N, mid);
+        if(smallerEquals <= M*N/2) {
+            low = mid +1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return low;
 }
 
 int main() {
@@ -82,8 +101,6 @@ int main() {
     v6.push_back(v4);
     v6.push_back(v5);
 
-    vector<int> answer = peakIndex(v6, 5, 5);
-    for(auto it: answer) {
-        cout << it << " ";
-    }
+    int answer = median2DRowwise(v6, 5, 5);
+    cout << answer;
 }
