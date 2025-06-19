@@ -1,35 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Reverse Words in a String
+// Largest Odd Number
 
-string reverseWords(string str, int N) {
-    int i=0, right=0, left=0;
-    reverse(str.begin(), str.end());
-    while(i<N) {
-        while(i<N && str[i] == ' ') {
-            i++;
+string largestOdd(string str, int N) {
+    for(int i=N-1; i>=0; i--) {
+        if((str[i] - '0')%2 != 0) {
+            return str.substr(0, i+1);
         }
-        if(i==N) {
-            break;
-        }
-        while(i<N && str[i] != ' ') {
-            str[right] = str[i];
-            right++;
-            i++;
-        }
-        reverse(str.begin() + left, str.begin() + right);
-        str[right] = ' ';
-        right++;
-        left = right;
-        i ++;
     }
-    str.resize(right-1);
-    return str;
+    return "";
 }
 
 int main() {
-    string myStr = "Hello World    Hi";
-    string answer = reverseWords(myStr, myStr.size());
-    cout << answer;
+    string myStr = "30527";
+    string largest = largestOdd(myStr, myStr.size());
+    cout << largest;
 }
