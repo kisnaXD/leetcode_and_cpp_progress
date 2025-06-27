@@ -2,20 +2,20 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C++ Build and Run",
+            "type": "shell",
+            "label": "C/C++: g++.exe build and run solution.cpp",
             "command": "g++",
             "args": [
-                "-g",
-                "${fileDirname}/solution.cpp",
+                "solution.cpp",
+                "-std=c++17",
                 "-o",
-                "${fileDirname}/solution",
+                "${fileDirname}\\solution.exe",
                 "&&",
-                "${fileDirname}/solution",
+                "${fileDirname}\\solution.exe",
                 "<",
-                "${fileDirname}/input.txt",
+                "input.txt",
                 ">",
-                "${fileDirname}/output.txt"
+                "output.txt"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -24,7 +24,8 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Task to compile and run C++ with input/output redirection"
+            "problemMatcher": ["$gcc"],
+            "detail": "Task to compile and run solution.cpp with input from input.txt and output to output.txt"
         }
     ]
 }
