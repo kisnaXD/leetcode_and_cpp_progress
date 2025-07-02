@@ -1,147 +1,177 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Insertion & Deletion in Linked List
+// Deletions and Insertions from a Doubly Linked List
 
-struct Node {
-    public:
+class Node {
+    public: 
     int data;
     Node* next;
+    Node* back;
 
-    Node(int data1, Node* node1) {
-        data = data1;
-        next = node1;
+    Node(int d, Node* n, Node* b) {
+        data = d;
+        next = n;
+        back = b;
     }
 
-    Node(int data1) {
-        data = data1;
+    Node (int d) {
+        data = d;
         next = nullptr;
+        back = nullptr;
     }
 };
 
-Node* convertFromArray(vector<int> &arr, int N) {
-    Node* head = new Node(arr[0]);
-    Node* mover = head;
-    for(int i=1; i<N; i++) {
-        Node* temp = new Node(arr[i]);
-        mover->next = temp;
-        mover = temp;
-    }
-    return head;
-}
-
 Node* deleteHead(Node* head) {
-    if(head==NULL) {
-        return head;
+    if((head == nullptr) || (head->next == nullptr)) {
+        return nullptr;
     }
-    Node* temp = head;
-    head = head->next;
-    delete temp;
-    return head;
+    Node* newHead = head->next;
+    newHead->back = nullptr;
+    head->next = nullptr;
+    delete head;
+    return newHead;
 }
 
-Node* removeTail(Node* head) {
-    if(head == NULL || head->next == NULL) {
-        return NULL;
+Node* deleteTail(Node* head) {
+    if(head == nullptr || head->next == nullptr) {
+        return nullptr;
     }
     Node* mover = head;
-    while(mover->next->next != NULL) {
+    while(mover->next != nullptr) {
         mover = mover->next;
     }
-    delete mover->next;
-    mover->next = nullptr;
+    mover->back->next = nullptr;
+    delete mover;
     return head;
 }
 
-Node* deleteKth(Node*head, int K) {
-    if(head==NULL) {
-        return head;
+Node* deleteKth(Node* head, int K) {
+    if(head == nullptr || head->next == nullptr) {
+        return nullptr;
     }
     if(K==1) {
-        Node*temp = head;
-        head = head->next;
-        delete temp;
-        return head;
+        Node* newHead = head->next;
+        newHead->back = nullptr;
+        return newHead;
     }
     int c = 0;
-    Node* temp = head;
-    Node* prev = nullptr;
-    while(temp!=nullptr) {
+    Node* mover = head;
+    while(mover!=nullptr) {
         c++;
         if(c==K) {
-            prev->next = prev->next->next;
+            if(mover->next == nullptr) {
+                mover->back->next = mover->next;
+                mover->next = nullptr;
+                mover->back = nullptr;
+            } else {
+                mover->next->back = mover->back;   
+                mover->back->next = mover->next;
+                mover->next = nullptr;
+                mover->back = nullptr;
+            }
+            delete mover;
+            break;
         }
-        prev = temp;
-        temp = temp->next;
+        mover = mover->next;
     }
     return head;
 }
 
-Node* deleteK(Node* head, int K) {
-    if(head==NULL) {
-        return head;
+Node* deleteValue(Node* head, int K) {
+    if(head == nullptr || head->next == nullptr) {
+        return nullptr;
     }
-    if(head->data == K) {
-        Node* temp = head;
-        head = head->next;
-        delete temp;
-        return head;
-    }
-    Node* temp = head;
-    Node* prev = nullptr;
-    while(temp!=nullptr) {
-        if(temp->data == K) {
-            prev->next = prev->next->next;
+    Node* mover = head;
+    while(mover!=nullptr) {
+        if(mover->data == K) {
+            if(mover->next == nullptr) {
+                mover->back->next = nullptr;
+                mover->next = nullptr;
+                mover->back = nullptr;
+            } else if(mover->back == nullptr) {
+                mover->next->back = nullptr;
+                head = mover->next;
+                mover->next = nullptr;
+                mover->back = nullptr;
+            } else {
+                mover->next->back = mover->back;   
+                mover->back->next = mover->next;
+                mover->next = nullptr;
+                mover->back = nullptr;
+            }
+            delete mover;
             break;
         }
-        prev = temp;
-        temp = temp->next;
+        mover = mover->next;
     }
     return head;
 }
 
 Node* insertAtHead(Node* head, int K) {
-    Node* newNode = new Node(K, head);
+    Node* newNode = new Node(K);
+    newNode->next = head;
+    head->back = newNode;
     return newNode;
 }
 
 Node* insertAtTail(Node* head, int K) {
-    Node* newNode = new Node(K, nullptr);
-    Node* temp = head;
-    while(temp!=nullptr) {
-        if(temp->next == nullptr) {
-            temp->next = newNode;
+    Node* newNode = new Node(K);
+    Node* mover = head;
+    while(mover->next!= nullptr) {
+        mover = mover->next;
+    }
+    newNode->back = mover;
+    mover->next = newNode;
+    return head;
+}
+
+Node* insertAtK(Node* head, int K, int i) {
+    Node* newNode = new Node(i);
+    Node* mover = head;
+    int c = 0;
+    if(K==1) {
+        newNode->next = head;
+        head->back = newNode;
+        return newNode;
+    }
+    while(mover!=nullptr) {
+        c++;
+        if(c==K) {
+            if(mover->next == nullptr) {
+                mover->next = newNode;
+                newNode->back = mover;
+            } else {
+                mover->next->back = newNode;
+                newNode->next = mover->next;
+                mover->next = newNode;
+                newNode->back = mover;
+            }
             break;
-        } else {
-            temp = temp->next;
         }
+        mover = mover->next;
     }
     return head;
 }
 
-Node* insertAtPosition(Node* head, int K, int i) {
-    int c = 0;
-    Node* temp = new Node(K);
-    Node* prev = NULL;
-    if(head==NULL) {
-        return temp;
-    }
-    if(i==1) {
-        temp->next = head;
-        return temp;
-    }
-    Node* mover = head;
-    while(mover!=nullptr) {
-        c+=1;
-        if(c==i) {
-            prev->next = temp;
-            temp->next = mover;
-            break;
-        }
-        prev = mover;
-        mover = mover->next;
+Node* convertToArray(vector<int> &arr, int N) {
+    Node* head = new Node(arr[0]);
+    Node* prev = head;
+    for(int i=1; i<N; i++) {
+        Node* temp = new Node(arr[i], nullptr, prev);
+        prev -> next = temp;
+        prev = temp;
     }
     return head;
+}
+
+void printLL(Node* head) {
+    Node* mover = head;
+    while(mover!=nullptr) {
+        cout << mover->data;
+        cout << " ";
+        mover = mover->next;
+    }
 }
 
 int main() {
@@ -149,12 +179,9 @@ int main() {
     v.push_back(12);
     v.push_back(8);
     v.push_back(5);
-    Node* header = convertFromArray(v, 3);
-    Node* afterAdding7 = insertAtPosition(header, 12, 2);
-    Node* mover = afterAdding7;
-    while(mover != nullptr) {
-        cout << mover->data;
-        mover = mover->next;
-        cout << " ";
-    }
+    v.push_back(7);
+
+    Node* head = convertToArray(v, 4);
+    printLL(insertAtK(head,4,12));
+    return 0;
 }
