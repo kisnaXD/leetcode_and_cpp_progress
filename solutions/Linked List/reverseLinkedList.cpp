@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Middle of a Linked List
+// Reversing a Linked List Iteratively and Recursively
 
 class Node {
     public: 
@@ -24,7 +24,7 @@ Node* reverseLL(Node* head) {
     Node* prev = nullptr;
     Node* front = nullptr;
     while(mover!=nullptr) {
-        Node* front = mover->next;
+        front = mover->next;
         mover->next = prev;
         prev = mover;
         mover = front;
