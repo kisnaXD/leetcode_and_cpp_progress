@@ -19,14 +19,28 @@ class Node {
     }
 };
 
-Node* middleOfLL(Node* head) {
-    Node* s = head;
-    Node* f = head;
-    while(f!= nullptr && f->next != nullptr) {
-        s = s->next;
-        f = f->next->next;
+Node* reverseLL(Node* head) {
+    Node* mover = head;
+    Node* prev = nullptr;
+    Node* front = nullptr;
+    while(mover!=nullptr) {
+        Node* front = mover->next;
+        mover->next = prev;
+        prev = mover;
+        mover = front;
     }
-    return s;
+    return prev;
+}
+
+Node* recursivelyReverse(Node* head) {
+    if(head == nullptr || head->next == nullptr) {
+        return head;
+    }
+    Node* newHead = recursivelyReverse(head->next);
+    Node* front = head->next;
+    front->next = head;
+    head->next = nullptr;
+    return newHead;
 }
 
 Node* convertToArray(vector<int> &arr, int N) {
@@ -47,6 +61,7 @@ void printLL(Node* head) {
         cout << " ";
         mover = mover->next;
     }
+    cout << endl;
 }
 
 int main() {
@@ -57,6 +72,8 @@ int main() {
     v.push_back(7);
 
     Node* head = convertToArray(v, 4);
-    cout << middleOfLL(head)->data;
+    Node* trueHead = convertToArray(v, 4);
+    printLL(reverseLL(head));
+    printLL(recursivelyReverse(trueHead));
     return 0;
 }
