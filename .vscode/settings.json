@@ -9,6 +9,7 @@
         "string": "cpp",
         "list": "cpp",
         "unordered_map": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "new": "cpp"
     }
 }
