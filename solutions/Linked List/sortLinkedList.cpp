@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Segrregate Odd and Even Indexed Nodes in a Linked List
+// Sorting a Linked List using Merge Sort
 
 class Node {
     public: 
