@@ -23,7 +23,7 @@ Before starting this repository, I had already solved **11 LeetCode questions**.
 
 ## Progress
 - **Starting Point**: 11 problems solved pre-repository.
-- **Current Count**: [Update this as you go!]
+- **Current Count**: 82 Problems solved as of 13 July 2025!
 - Check my LeetCode stats below for a visual summary:
 
 ![LeetCode Stats](https://github.com/kisnaXD/leetcode_and_cpp_progress/blob/main/images/Leetcode%20Progress%203.png?raw=true)
