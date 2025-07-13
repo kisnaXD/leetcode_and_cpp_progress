@@ -26,7 +26,7 @@ Before starting this repository, I had already solved **11 LeetCode questions**.
 - **Current Count**: [Update this as you go!]
 - Check my LeetCode stats below for a visual summary:
 
-![LeetCode Stats](https://github.com/kisnaXD/leetcode_and_cpp_progress/blob/main/images/Leetcode%20Progress%201.png?raw=true)
+![LeetCode Stats](https://github.com/kisnaXD/leetcode_and_cpp_progress/blob/main/images/Leetcode%20Progress%203.png?raw=true)
 
 ---
 
