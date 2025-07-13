@@ -1,28 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Repeated String Match
+// Check if a Number is a power of Two or Not
 
-int repeatedStringMatch(string a, string b) {
-    int q = 1;
-    string s = a;
-    for(; s.length() < b.length(); q++) {
-        s+=a;
-    }
-    if(s.find(b) != string::npos) {
-        return q;
-    }
-    s+=a;
-    if(s.find(b) != string::npos) {
-        return q+1;
-    }
-    return -1;
+bool isPowerOfTwo(int N) {
+    if(N==0) return false;
+    if(N==INT_MIN) return false;
+    return !(N & (N-1));
 }
 
 int main() {
-    string a = "abcd";
-    string b = "bcdabcdab";
-    int answer = repeatedStringMatch(a, b);
-    cout << answer;
+    int x = 18;
+    cout << isPowerOfTwo(x);
     return 0;
 }
