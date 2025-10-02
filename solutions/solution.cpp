@@ -2,38 +2,39 @@
 #include <stack>
 using namespace std;
 
-// Queue Implementation Using Stack (Enqueue becomes O(2N))
+// Balanced Parantheses
 
-class queueUsingStack {
-    stack<int> s1, s2;
-    public:
-        void enqueue(int x) {
-            while(s1.size() > 0) {
-                s2.push(s1.top());
-                s1.pop();
+bool balancedParantheses(string s) {
+    stack<char> st;
+    for(int i=0; i<s.length(); i++) {
+        if(s[i] == '{' || s[i] == '(' || s[i] == '[') {
+            st.push(s[i]);
+        } else if(s[i] == '}') {
+            if(st.empty() || st.top() != '{') {
+                return false;
             }
-            s1.push(x);
-            while(s2.size() > 0) {
-                s1.push(s2.top());
-                s2.pop();
+            st.pop();
+        } else if(s[i] == ')') {
+            if(st.empty() || st.top() != '(') {
+                return false;
             }
+            st.pop();
+        } else if(s[i] == ']') {
+            if(st.empty() || st.top() != '[') {
+                return false;
+            }
+            st.pop();
         }
-        
-        void dequeue() {
-            s1.pop();
-        }
-
-        int top() {
-            return s1.top();
-        }
-
-        int size() {
-            return s1.size();
-        }
-};
+    }
+    if(st.size() == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 int main() {
-    int n = 8;
-
+    string s = "((((()))))";
+    cout << balancedParantheses(s);
     return 0;
 }
