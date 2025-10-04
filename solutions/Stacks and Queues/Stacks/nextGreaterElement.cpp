@@ -3,7 +3,8 @@
 #include <algorithm>
 using namespace std;
 
-// Minimum Stack
+// Next Greater Element
+
 vector<int> nextGreaterElement(vector<int>& a, vector<int>& b) {
     unordered_map<int, int> ngeMap; 
     stack<int> st;
