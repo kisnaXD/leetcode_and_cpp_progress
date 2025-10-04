@@ -4,48 +4,22 @@
 using namespace std;
 
 // Minimum Stack
-
-class MinStack {
-    long long minEle;
-    stack<long long> s;
-    public:
-        MinStack() {
-            minEle = INT_MAX;
+vector<int> nextGreaterElement(vector<int>& a, vector<int>& b) {
+    unordered_map<int, int> ngeMap; 
+    stack<int> st;
+    for (int i = b.size() - 1; i >= 0; i--) {
+        while (!st.empty() && b[i] >= st.top()) {
+            st.pop();
         }
-        
-        void push(int val) {
-            if(s.empty()) {
-                s.push(val);
-                minEle = val;
-            } else if(val < minEle) {
-                s.push(2LL*val - minEle);
-                minEle = val;
-            } else {
-                s.push(val);
-            }
-        }
-        
-        void pop() {
-            if(s.top() < minEle) {
-                minEle = 2*minEle - s.top();
-                s.pop();
-            } else {
-                s.pop();
-            }
-        }
-        
-        int top() {
-            if(s.top() < minEle) {
-                return minEle;
-            } else {
-                return s.top();
-            }
-        }
-        
-        int getMin() {
-            return minEle;
-        }
-};
+        ngeMap[b[i]] = st.empty() ? -1 : st.top();
+        st.push(b[i]);
+    }
+    vector<int> ans;
+    for (int num : a) {
+        ans.push_back(ngeMap[num]);
+    }
+    return ans;
+}
 
 int main() {
     return 0;
