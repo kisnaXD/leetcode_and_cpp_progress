@@ -3,53 +3,111 @@
 #include <algorithm>
 using namespace std;
 
-// Maximal Rectangle
+// LFU Cache
 
-int largestRectangleArea(vector<int>& arr) {
-    stack<int> st;
-    int maxArea = 0;
-    int N = arr.size();
-    for(int i=0; i<N; i++) {
-        while(!st.empty() && arr[st.top()] > arr[i]) {
-            int el = st.top();
-            st.pop();
-            int nse = i;
-            int pse = st.empty() ? -1 : st.top();
-            int area = arr[el] * (nse - pse - 1);
-            maxArea = max(area, maxArea);
+struct Node {
+    int key, value, count;
+    Node* next;
+    Node* prev;
+    Node(int k, int v) {
+        key = k;
+        value = v;
+        count = 1;
+    }
+};
+
+struct List {
+    int size;
+    Node* head;
+    Node* tail;
+    List() {
+        size = 0;
+        head = new Node(-105, 0);
+        tail = new Node(-101, 0);
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    void addFront(Node* n) {
+        Node* t = head->next;
+        n->next = t;
+        n->prev = head;
+        head->next = n;
+        t->prev = n;
+        size+=1;
+    }
+
+    void removeNode(Node* delNode) {
+        delNode->prev->next = delNode->next;
+        delNode->next->prev = delNode->prev;
+        size-=1;
+    }
+};
+
+class LFUCache {
+public:
+    int size, minFreq, capacity;
+    unordered_map<int, Node*> fMap;
+    unordered_map<int, List*> lMap;
+    LFUCache(int c) {
+        size = 0;
+        minFreq = 0;
+        capacity = c;
+    }
+
+    void updateFreqList(Node* n) {
+        fMap.erase(n->key);
+        lMap[n->count]->removeNode(n);
+        if(n->count == minFreq && lMap[n->count]->size==0) {
+            minFreq+=1;
         }
-        st.push(i);
+        List* nextH = new List();
+        if(lMap.find(n->count+1) != lMap.end()) {
+            nextH = lMap[n->count+1];
+        }
+        n->count+=1;
+        nextH->addFront(n);
+        lMap[n->count] = nextH;
+        fMap[n->key] = n;
     }
-    while(!st.empty()) {
-        int el = st.top();
-        st.pop();
-        int nse = N;
-        int pse = st.empty() ? -1 : st.top();
-        int area = arr[el] * (nse - pse - 1);
-        maxArea = max(area, maxArea);
+    int get(int key) {
+        if(fMap.find(key) != fMap.end()) {
+            Node* n = fMap[key];
+            int v = n->value;
+            updateFreqList(n);
+            return v;
+        } else {
+            return -1;
+        }
     }
-    return maxArea;
-}
-int maximalRectangle(vector<vector<char>>& mat) {
-    int N = mat.size();
-    int M = N!=0 ? mat[0].size() : 0;
-    vector<vector<int>> pSum(N, vector<int>(M));
-    int maxArea = 0;
-    for(int j=0; j<M; j++) {
-        int sum = 0;
-        for(int i=0; i<N; i++) {
-            sum+=mat[i][j] - '0';
-            if(mat[i][j] == '0') {
-                sum = 0;
+    void put(int key, int value) {
+        if(capacity == 0) {
+            return;
+        }
+        if(fMap.find(key) != fMap.end()) {
+            Node* n = fMap[key];
+            n->value = value;
+            updateFreqList(n);
+        } else {
+            if(size == capacity) {
+                List* L = lMap[minFreq];
+                fMap.erase(L->tail->prev->key);
+                lMap[minFreq]->removeNode(L->tail->prev);
+                size--;
             }
-            pSum[i][j] = sum;
+            size+=1;
+            minFreq = 1;
+            List* newL = new List();
+            if(lMap.find(minFreq) != lMap.end()) {
+                newL = lMap[minFreq];
+            }
+            Node* n = new Node(key, value);
+            newL->addFront(n);
+            fMap[key] = n;
+            lMap[minFreq] = newL;
         }
     }
-    for(int i=0; i<N; i++) {
-        maxArea = max(maxArea, largestRectangleArea(pSum[i]));
-    }
-    return maxArea;
-}
+};
 
 int main() {
     return 0;
