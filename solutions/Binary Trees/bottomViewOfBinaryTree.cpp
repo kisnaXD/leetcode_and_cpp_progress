@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-// Top View of a Binary Tree
+// Bottom View of a Binary Tree
 
 struct TreeNode {
     int val;

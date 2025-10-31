@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-// Right/Left of a Binary Tree
+// Right/Left View of a Binary Tree
 
 struct TreeNode {
     int val;
